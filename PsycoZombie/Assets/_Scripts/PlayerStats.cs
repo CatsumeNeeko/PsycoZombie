@@ -5,15 +5,8 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-<<<<<<< Updated upstream
-    public bool hasToolbox = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-=======
-    public float maxHealth;
->>>>>>> Stashed changes
-
+    public bool hasToolBox = false;
+    public int nailAmmount = 0;
+    public int maxNailAmmount = 12;
+    public float maxHealth = 100;
 }
