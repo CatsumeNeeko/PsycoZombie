@@ -5,7 +5,7 @@ using UnityEngine;
 public class GunManager : MonoBehaviour
 {
     [SerializeField] int currentAmmo = 0;
-    [SerializeField] int maximunAmmo = 6;
+    [SerializeField] int maximumAmmo = 6;
     [SerializeField] int reserveAmmo = 1;
     [SerializeField] bool isReloading;
     [SerializeField] float reloadTime;
@@ -22,7 +22,7 @@ public class GunManager : MonoBehaviour
         {
             Shoot();
         }
-        if(Input.GetKeyDown(KeyCode.R) && currentAmmo < maximunAmmo)
+        if(Input.GetKeyDown(KeyCode.R) && currentAmmo < maximumAmmo)
         {
             StartCoroutine(ReloadTimer());
         }
@@ -43,7 +43,7 @@ public class GunManager : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
 
         isReloading = false;
-        int ammoNeeded = maximunAmmo - currentAmmo;
+        int ammoNeeded = maximumAmmo - currentAmmo;
         if(ammoNeeded <= reserveAmmo)
         {
             reserveAmmo -= ammoNeeded;
