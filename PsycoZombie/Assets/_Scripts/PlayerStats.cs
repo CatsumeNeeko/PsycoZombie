@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    public bool hasToolbox = false;
     // Start is called before the first frame update
     void Start()
     {
