@@ -8,7 +8,7 @@ public class ItemCollision : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (playerStats.hasToolbox)
+            if (playerStats.hasToolBox)
             {
                 // Player already has a toolbox
                 Debug.Log("Player already has a toolbox.");
@@ -16,7 +16,7 @@ public class ItemCollision : MonoBehaviour
             else
             {
                 // Player obtains toolbox and remove it from the scene
-                playerStats.hasToolbox = true;
+                playerStats.hasToolBox = true;
                 Debug.Log("Player obtained the toolbox.");
                 Destroy(gameObject); // Remove the toolbox GameObject
             }
