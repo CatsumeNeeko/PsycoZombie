@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ZombieNavigation : MonoBehaviour
 {
     private bool isChasing = false;
+    private Transform playerTransform; // Reference to the player's transform
 
     // Start is called before the first frame update
     void Start()
@@ -11,6 +13,7 @@ public class ZombieNavigation : MonoBehaviour
         if (IsPlayerDetected())
         {
             isChasing = true;
+            playerTransform = GetPlayerTransform();
         }
         else
         {
@@ -41,11 +44,37 @@ public class ZombieNavigation : MonoBehaviour
         return false;
     }
 
+    // Method to get the player's transform (replace this with your actual player reference)
+    Transform GetPlayerTransform()
+    {
+        // Implement how to get the player's transform
+        // For example, you could use GameObject.FindWithTag("Player").transform
+        return null;
+    }
+
     // Method to handle the chase state
     void ChasePlayer()
     {
-        // Implement your chase logic here
-        // Move towards the player, for example
+        // If player is still in range, continue chasing
+        if (IsPlayerDetected())
+        {
+            // Implement your tracking/following logic here
+            // Move towards the player, for example
+            MoveTowardsPlayer();
+        }
+        else
+        {
+            // If player is not in range, roam around
+            Roam();
+        }
+    }
+
+    // Method to move towards the player
+    void MoveTowardsPlayer()
+    {
+        // Implement your movement logic towards the player
+        // For example, you could use Vector3.MoveTowards
+        transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, Time.deltaTime * movementSpeed);
     }
 
     // Method to handle the idle state
@@ -54,4 +83,20 @@ public class ZombieNavigation : MonoBehaviour
         // Implement your idle or other logic here
         // Perform actions when not chasing the player
     }
+
+    // Method to roam around
+    void Roam()
+    {
+        // Implement your roaming logic here
+        // For example, you could make the zombie move randomly
+        Vector3 randomDirection = Random.insideUnitSphere * roamRadius;
+        randomDirection.y = 0; // Ensure the zombie stays on the same level
+        Vector3 destination = transform.position + randomDirection;
+        NavMesh.SamplePosition(destination, out NavMeshHit hit, roamRadius, 1);
+        transform.position = hit.position;
+    }
+
+    // Variables for roaming
+    public float roamRadius = 10f;
+    public float movementSpeed = 5f;
 }
