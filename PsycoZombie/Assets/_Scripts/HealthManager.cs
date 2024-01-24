@@ -1,49 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class HealthManager : MonoBehaviour
+public class HealthManager : NetworkBehaviour
 {
     [Header("Dependancies")]
     public PlayerStats stats;
     [Header("HealthStats")]
-    public float currentHealth;
+    public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
 
     void Start()
     {
-        currentHealth = stats.maxHealth;
+        currentHealth.Value = stats.maxHealth;
     }
-    public void TakeDamage(float damage)
+    [ServerRpc]
+    public void TakeDamageServerRpc(float damage)
     {
-        currentHealth -= damage;
-
-        if (currentHealth <= 0f)
+        if(!IsOwner) return;    
+        currentHealth.Value -= damage;
+        if (currentHealth.Value <= 0f)
         {
             Die();
         }
     }
-    public void HealDamage(float damage)
+    [ServerRpc]
+    public void HealDamageServerRpc(float damage)
     {
-        currentHealth += damage;
-        if (currentHealth > stats.maxHealth)
+        currentHealth.Value += damage;
+        if (currentHealth.Value > stats.maxHealth)
         {
-            currentHealth = stats.maxHealth;
+            currentHealth.Value = stats.maxHealth;
+            SyncHealthClientRpc(currentHealth.Value);
         }
+    }
+    [ClientRpc]
+    private void SyncHealthClientRpc(float newHealthValue)
+    {
+        // Modify the health variable on all clients
+        currentHealth.Value = newHealthValue;
     }
     private void Die()
     {
         Destroy(gameObject);
     }
 
+
+    
     public void Update()
     {
+        if (!IsOwner) return;
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            TakeDamage(10f);
+            TakeDamageServerRpc(10f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            HealDamage(10f);
+            HealDamageServerRpc(10f);
         }
     }
 }

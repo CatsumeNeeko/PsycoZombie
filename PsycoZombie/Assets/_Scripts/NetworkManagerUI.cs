@@ -5,9 +5,11 @@ using UnityEngine.UI;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 using System.Linq;
+    
 
 public class NetworkManagerUI : MonoBehaviour
 {
+
     [SerializeField] private Button ServerButton;
     [SerializeField] private Button HostButton;
     [SerializeField] private Button ClientButton;
@@ -34,6 +36,17 @@ public class NetworkManagerUI : MonoBehaviour
 
             int listLength = players.Length;
             Debug.Log("PlayerAmmount :" + listLength);
+
+            int randomIndex = Random.Range(0,listLength);
+            Debug.Log(randomIndex.ToString());
+            GameObject specificObject = players[randomIndex];
+            
+            PlayerMovement playerMovement = specificObject.gameObject.GetComponent<PlayerMovement>();
+            if(playerMovement != null)
+            {
+                playerMovement.team = new NetworkVariable<int>(1);
+            }
+                
         });
     }
 }

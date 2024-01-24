@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Networking;
     
 
 public class PlayerMovement : NetworkBehaviour
 {
+    [Header("Dependancies")]
+    public GameManager gameManager;
     [Header("MovementStats")]
     public float moveSmoothTime;
     public float gravityStrength;
@@ -22,6 +25,9 @@ public class PlayerMovement : NetworkBehaviour
     private PlayerState currentPlayerState = PlayerState.Idle;
     [Header("Animations")]
     Animator animator;
+
+
+    public NetworkVariable<int> team;
 
 
     public enum PlayerState

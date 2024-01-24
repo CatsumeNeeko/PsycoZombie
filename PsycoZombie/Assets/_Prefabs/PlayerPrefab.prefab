@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1162041618
+  GlobalObjectIdHash: 530121576
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c2389b5d945824c90bbc9410fe6e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   moveSmoothTime: 0.01
   gravityStrength: 9.41
   jumpStrength: 5
@@ -653,6 +654,8 @@ MonoBehaviour:
   runSpeed: 8
   sensitivity: {x: 3, y: 3}
   PlayerCamera: {fileID: 2802319282080402903}
+  team:
+    m_InternalValue: 0
 --- !u!114 &2297608204265165741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,8 +767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02ed91536ccdb64e99737a855dd34b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunData: {fileID: 11400000, guid: 77780fc4344feb147b409f9402d51d25, type: 2}
   currentAmmo: 1
-  maximumAmmo: 6
   reserveAmmo: 7
   isReloading: 0
   reloadTime: 2

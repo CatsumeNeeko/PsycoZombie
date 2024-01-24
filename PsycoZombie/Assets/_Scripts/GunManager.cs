@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class GunManager : MonoBehaviour
 {
+    public GunData gunData;
+
+
     [SerializeField] int currentAmmo = 0;
-    [SerializeField] int maximumAmmo = 6;
     [SerializeField] int reserveAmmo = 1;
     [SerializeField] bool isReloading;
     [SerializeField] float reloadTime;
@@ -23,7 +25,7 @@ public class GunManager : MonoBehaviour
         {
             Shoot();
         }
-        if(Input.GetKeyDown(KeyCode.R) && currentAmmo < maximumAmmo)
+        if(Input.GetKeyDown(KeyCode.R) && currentAmmo < gunData.maxMagazine && isReloading == false)
         {
             StartCoroutine(ReloadTimer());
         }
@@ -34,13 +36,17 @@ public class GunManager : MonoBehaviour
         if(currentAmmo != 0 && isReloading == false)
         {
             currentAmmo--;
-            Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-            float rayDistance = 100f;
-            RaycastHit hit;
 
-            if(Physics.Raycast(ray,out hit, rayDistance))
+            for(int i = 0; i < gunData.pellets;  i++)
             {
-                Debug.Log("Hit Object " + hit.collider.gameObject.name);
+                Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, gunData.bulletDistance))
+                {
+                    Debug.Log("Hit Object " + hit.collider.gameObject.name);
+                    Debug.DrawRay(ray.origin, ray.direction * gunData.bulletDistance, Color.red, 1f);
+                }
             }
         }
     }
@@ -52,13 +58,13 @@ public class GunManager : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
 
         isReloading = false;
-        int ammoNeeded = maximumAmmo - currentAmmo;
+        int ammoNeeded = gunData.maxMagazine - currentAmmo;
         if(ammoNeeded <= reserveAmmo)
         {
             reserveAmmo -= ammoNeeded;
             currentAmmo += ammoNeeded;
         }
-        else if(reserveAmmo < maximumAmmo)
+        else if(reserveAmmo < gunData.maxMagazine)
         {
             currentAmmo += reserveAmmo;
             reserveAmmo = 0;

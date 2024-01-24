@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : NetworkBehaviour
 {
     [Header("Dependancies")]
     public HealthManager healthManager;
@@ -29,7 +31,7 @@ public class HealthBar : MonoBehaviour
 
 
         maxHealth = playerStats.maxHealth;
-        currentHealth = healthManager.currentHealth;
+        currentHealth = healthManager.currentHealth.Value;
 
         target = currentHealth / maxHealth;
 
