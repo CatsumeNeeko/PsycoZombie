@@ -9,15 +9,17 @@ using System.Linq;
 
 public class NetworkManagerUI : MonoBehaviour
 {
+    public static NetworkManagerUI Instance;
+
     public GameManager gameManager;
     [SerializeField] private Button ServerButton;
     [SerializeField] private Button HostButton;
     [SerializeField] private Button ClientButton;
     [SerializeField] Button StartButton;
-    [SerializeField] GameObject[] players;
+    public GameObject[] players;
     private void Awake()
     {
-
+        Instance = this;
         ServerButton.onClick.AddListener(() => {
             NetworkManager.Singleton.StartServer();
 

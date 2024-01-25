@@ -10,6 +10,15 @@ public class GameManager : NetworkBehaviour
 {
     public NetworkVariable<int> teamID;
     public NetworkVariable<int> playersAliveStart;
+    public NetworkVariable<int> playersAliveCurrent;
     public bool gameStarted;
+
+    private void Update()
+    {
+        if(gameStarted)
+        {
+            playersAliveCurrent = playersAliveStart;
+        }
+    }
 
 }

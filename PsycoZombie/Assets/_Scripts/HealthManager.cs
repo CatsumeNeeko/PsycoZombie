@@ -8,14 +8,14 @@ public class HealthManager : NetworkBehaviour
     [Header("Dependancies")]
     public PlayerStats stats;
     [Header("HealthStats")]
-    public NetworkVariable<float> currentHealth = new NetworkVariable<float>();
+    public NetworkVariable<float> currentHealth = new NetworkVariable<float>(default,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
     void Start()
     {
         currentHealth.Value = stats.maxHealth;
     }
-    [ServerRpc]
-    public void TakeDamageServerRpc(float damage)
+    [ClientRpc]
+    public void TakeDamageClientRpc(float damage)
     {
         if(!IsOwner) return;    
         currentHealth.Value -= damage;
@@ -24,8 +24,8 @@ public class HealthManager : NetworkBehaviour
             Die();
         }
     }
-    [ServerRpc]
-    public void HealDamageServerRpc(float damage)
+    [ClientRpc]
+    public void HealDamageClientRpc(float damage)
     {
         currentHealth.Value += damage;
         if (currentHealth.Value > stats.maxHealth)
@@ -52,11 +52,11 @@ public class HealthManager : NetworkBehaviour
         if (!IsOwner) return;
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            TakeDamageServerRpc(10f);
+            TakeDamageClientRpc(10f);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            HealDamageServerRpc(10f);
+            HealDamageClientRpc(10f);
         }
     }
 }

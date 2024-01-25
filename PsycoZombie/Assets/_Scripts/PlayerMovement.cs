@@ -26,7 +26,7 @@ public class PlayerMovement : NetworkBehaviour
     [Header("Animations")]
     Animator animator;
 
-
+    //public GameObject parent;
     public NetworkVariable<int> team;
 
 
@@ -41,6 +41,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         Controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        transform.SetParent(gameObject.transform.Find("Players"));
     }
 
     // Update is called once per frame
@@ -97,7 +98,7 @@ public class PlayerMovement : NetworkBehaviour
         {
             CurrentForceVeloctiy.y -= gravityStrength * Time.deltaTime;
         }
-        Controller.Move(CurrentForceVeloctiy * Time.deltaTime);
+        Controller.Move(CurrentForceVeloctiy * Time.deltaTime); 
         //UpdateAnimator();
     }
 }

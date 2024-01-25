@@ -25,6 +25,8 @@ public class HealthBar : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!IsOwner) gameObject.SetActive(false);
+
         HealthStr = currentHealth.ToString();
         HealthTxt.text = HealthStr;
 

@@ -158,6 +158,9 @@ MonoBehaviour:
   wanderRadius: 10
   rotationSpeed: 4
   walkingSpeed: 3
+  detectionRange: 10
+  isChasingPlayer: 0
+  closestPlayer: {fileID: 0}
 --- !u!136 &7818908750800872189
 CapsuleCollider:
   m_ObjectHideFlags: 0

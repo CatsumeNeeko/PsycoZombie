@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class AiNavigation : MonoBehaviour
 {
 
-
     private NavMeshAgent agent;
     private Vector3 targetDestination;
     private float nextMoveTime;
@@ -15,24 +14,42 @@ public class AiNavigation : MonoBehaviour
     public float wanderRadius = 10f;
     public float rotationSpeed = 4f;
     public float walkingSpeed = 3f;
-
+    public float detectionRange = 10f;
+    [SerializeField] bool isChasingPlayer = false;
+    [SerializeField] Transform closestPlayer;
+    GameObject[] playersAlive;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+
     }
     private void Update()
     {
-        if (Time.time >= nextMoveTime && !agent.pathPending && agent.remainingDistance < 0.5f)
+        if (!isChasingPlayer)
         {
-            RotateBeforeMoving();
-            SetRandomDestination();
-            float waitTime = Random.Range(minWaitTime, maxWaitTime);
-            nextMoveTime = Time.time + waitTime;
-            //animator.SetBool("IsWalking", false);
+            if (Time.time >= nextMoveTime && !agent.pathPending && agent.remainingDistance < 0.5f)
+            {
+                RotateBeforeMoving();
+                SetRandomDestination();
+                float waitTime = Random.Range(minWaitTime, maxWaitTime);
+                nextMoveTime = Time.time + waitTime;
+                //animator.SetBool("IsWalking", false);
 
+            }
         }
-    }
+        else
+        {
+            Transform closestPlayer = GetClosestPlayer();
+            if (closestPlayer != null)
+            {
+                agent.SetDestination(closestPlayer.position);
+            }
+        }
 
+
+
+    }
+    #region Wandering
     void SetRandomDestination()
     {
         Vector3 randomPoint = transform.position + Random.insideUnitSphere * wanderRadius;
@@ -46,4 +63,36 @@ public class AiNavigation : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(targetDirection, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
     }
+    #endregion
+
+    void CheckForPlayer()
+    {
+        closestPlayer = GetClosestPlayer();
+        if (closestPlayer != null && Vector3.Distance(transform.position, closestPlayer.position) < detectionRange)
+        {
+            isChasingPlayer = true;
+        }
+        else
+        {
+            isChasingPlayer = false;
+        }
+    }
+    Transform GetClosestPlayer()
+    {
+        closestPlayer = null;
+        float closestDistance = float.MaxValue;
+
+        foreach (GameObject player in NetworkManagerUI.Instance.players)
+        {
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPlayer = player.transform;
+            }
+        }
+
+        return closestPlayer;
+    }
+
 }
