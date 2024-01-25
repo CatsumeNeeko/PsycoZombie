@@ -9,7 +9,7 @@ using System.Linq;
 
 public class NetworkManagerUI : MonoBehaviour
 {
-
+    public GameManager gameManager;
     [SerializeField] private Button ServerButton;
     [SerializeField] private Button HostButton;
     [SerializeField] private Button ClientButton;
@@ -32,10 +32,19 @@ public class NetworkManagerUI : MonoBehaviour
         });
         StartButton.onClick.AddListener(() =>
         {
+            gameManager.gameStarted = true;
+            
             players = GameObject.FindGameObjectsWithTag("Player");
 
             int listLength = players.Length;
             Debug.Log("PlayerAmmount :" + listLength);
+
+            gameManager.playersAliveStart.Value = listLength;
+
+
+
+
+
 
             int randomIndex = Random.Range(0,listLength);
             Debug.Log(randomIndex.ToString());

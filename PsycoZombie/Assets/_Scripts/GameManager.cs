@@ -9,4 +9,7 @@ using UnityEngine.Networking;
 public class GameManager : NetworkBehaviour
 {
     public NetworkVariable<int> teamID;
+    public NetworkVariable<int> playersAliveStart;
+    public bool gameStarted;
+
 }
