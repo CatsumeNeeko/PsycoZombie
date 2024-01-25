@@ -18623,6 +18623,14 @@ PrefabInstance:
       propertyPath: _OnDeathWithoutLives.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3125149493961019148, guid: 10ac5d19dc086544bb5e004459fe4f76, type: 3}
+      propertyPath: _RunningSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125149493961019148, guid: 10ac5d19dc086544bb5e004459fe4f76, type: 3}
+      propertyPath: _WalkingSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3125149493961315106, guid: 10ac5d19dc086544bb5e004459fe4f76, type: 3}
       propertyPath: m_RootOrder
       value: 2
