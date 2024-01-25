@@ -13,10 +13,7 @@ public class GunManager : MonoBehaviour
     [SerializeField] float reloadTime;
     [SerializeField] Camera cam;
 
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -35,9 +32,9 @@ public class GunManager : MonoBehaviour
     {
         if(currentAmmo != 0 && isReloading == false)
         {
+            
             currentAmmo--;
-
-            for(int i = 0; i < gunData.pellets;  i++)
+            for (int i = 0; i < gunData.pellets; i++)
             {
                 Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
                 RaycastHit hit;
@@ -46,6 +43,10 @@ public class GunManager : MonoBehaviour
                 {
                     Debug.Log("Hit Object " + hit.collider.gameObject.name);
                     Debug.DrawRay(ray.origin, ray.direction * gunData.bulletDistance, Color.red, 1f);
+                    if (hit.collider.gameObject.CompareTag("Zombie"))
+                    {
+                        Debug.Log("ZOMBIE HIT OMGAWD KILL IT");
+                    }
                 }
             }
         }
